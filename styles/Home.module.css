@@ -23,6 +23,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0.5rem;
 }
 
 .footer a {
@@ -156,4 +157,6 @@
 
 .searchBarWrapper button {
   font-size: larger;
+  background-color: #0070f3;
+  color: white;
 }

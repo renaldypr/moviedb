@@ -3,7 +3,8 @@ module.exports = {
   images: {
     domains: [
       'm.media-amazon.com',
-      'via.placeholder.com'
+      'via.placeholder.com',
+      'ia.media-imdb.com'
     ],
   },
 }

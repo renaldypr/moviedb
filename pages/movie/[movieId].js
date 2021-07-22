@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import axios from 'axios'
 import styles from '../../styles/MovieDetail.module.css'
 import Modal from '../../src/components/modal'
@@ -8,7 +9,9 @@ import NameList from '../../src/components/namelist'
 import Footer from '../../src/components/footer'
 
 export default function MoviePage ({ movie }) {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false)
+  const router = useRouter()
+
   const { Title, Year, Rated, Runtime, Poster, Genre, Plot, Director, Actors, imdbRating } = movie
   const genres = Genre.split(', ')
   const directors = Director.split(', ')
@@ -29,7 +32,9 @@ export default function MoviePage ({ movie }) {
             height={700}
           />
         </Modal>
-
+        <a className={styles.backButton} onClick={() => router.back()}>
+          <h3>&lsaquo; Back</h3>
+        </a>
         <div className={styles.innerContainer}>
           <h1 className={styles.title}>{Title}</h1>
           <div className={styles.rowContainer}>

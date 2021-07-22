@@ -4,19 +4,9 @@ import styles from '../../styles/Modal.module.css'
 
 export default function  Modal({ show, onClose, children }) {
   const [isBrowser, setIsBrowser] = useState(false)
-  const modalWrapperRef = useRef()
-
-  const backDropHandler = e => {
-    if (!modalWrapperRef?.current?.contains(e.target)) {
-      onClose();
-    }
-  }
 
   useEffect(() => {
     setIsBrowser(true)
-
-    // window.addEventListener('click', backDropHandler)
-    // return () => window.removeEventListener('click', backDropHandler)
   }, [])
 
   const handleCloseClick = (e) => {
@@ -45,4 +35,4 @@ export default function  Modal({ show, onClose, children }) {
   } else {
     return null
   }
-};
+}
