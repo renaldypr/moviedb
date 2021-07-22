@@ -3,7 +3,8 @@ import * as types from '../types'
 const initialState = {
   movieList: [],
   isLoading: false,
-  hasMore: false
+  hasMore: false,
+  count: 0
 }
 
 export const movieReducer = (state = initialState, action) => {
@@ -22,7 +23,8 @@ export const movieReducer = (state = initialState, action) => {
         ...state,
         movieList: newMovieList ,
         isLoading: false,
-        hasMore: newMovieList.length < action.payload.count
+        hasMore: newMovieList.length < action.payload.count,
+        count: action.payload.count
       }
     case types.FETCH_MOVIE_LIST_FAILED:
       return {

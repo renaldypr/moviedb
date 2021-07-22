@@ -10,22 +10,24 @@ import * as types from '../src/store/types'
 export default function Home() {
   const [page, setPage] = useState(1)
   const [query, setQuery] = useState('')
+  const [search, setSearch] = useState('')
   const [toggle, setToggle] = useState(false)
   const dispatch = useDispatch()
-  const { movieList, isLoading, hasMore } = useSelector(
+  const { movieList, isLoading, hasMore, count } = useSelector(
     (state) => state.movieReducer, shallowEqual
   )
   const observer = useRef()
+  const buttonRef = useRef()
 
   useEffect(() => {
-    if (!query || !toggle) return
+    if (!search || !toggle || isLoading) return
     dispatch(
       fetchMovieList({
         page: page,
-        search: query
+        search: search
       })
     )
-  }, [dispatch, page, query, toggle])
+  }, [dispatch, page, toggle])
 
   const lastMovieElementRef = useCallback(
     (node) => {
@@ -47,12 +49,21 @@ export default function Home() {
   }
 
   const handleSubmit = () => {
+    if (!query) return
     setPage(1)
     setToggle(true)
+    setSearch(query)
+    setQuery('')
     dispatch({
       type: types.CLEAR_MOVIE_LIST
     })
   }
+
+  const handleKeypress = e => {
+    if (e.which === 13) {
+      buttonRef.current.click()
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -67,10 +78,18 @@ export default function Home() {
         <p>Your #1 source for all movies!</p>
 
         <div className={styles.searchBarWrapper}>
-          <input type="text" onChange={handleChange} value={query} placeholder="Type your movie title" />
-          <button type="button" onClick={handleSubmit}>Search</button>
+          <input
+            type="text"
+            onChange={handleChange}
+            onKeyPress={handleKeypress}
+            value={query}
+            placeholder="Type your movie title" />
+          <button type="button" onClick={handleSubmit} ref={buttonRef}>Search</button>
         </div>
 
+        {(search && !!movieList.length) && (
+          <h4>{`Displaying ${count} results for "${search}"`}</h4>
+        )}
         <div className={styles.grid}>
           {movieList.map((movie, i) => {
             const isLastElement = movieList.length === i + 1
